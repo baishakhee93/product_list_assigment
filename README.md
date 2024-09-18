@@ -31,3 +31,6 @@ providers/: Contains state management logic using the Provider package, such as 
 screens/: Contains the UI screens, such as ProductList, ProductDetailsScreen and FavoriteProductList.
 
 
+Note :- used SQLite for store favorite product  add and retrive
+
+
