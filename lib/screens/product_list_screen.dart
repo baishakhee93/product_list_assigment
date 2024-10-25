@@ -37,6 +37,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
             setState(() {
               _searchQuery = value.toLowerCase();
             });
+            Provider.of<ProductProvider>(context, listen: false).filterProducts(_searchQuery);
+
           },
           decoration: InputDecoration(
             hintText: 'Search products...',
@@ -50,6 +52,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.favorite, color: Colors.white),
+
             onPressed: () {
               // Navigate to the FavoritesScreen to display favorite products
               Navigator.push(
@@ -58,6 +61,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   builder: (context) => FavoritesScreen(),
                 ),
               );
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.filter_list, color: Colors.white),
+            onPressed: () {
+              // Navigate to the FavoritesScreen to display favorite products
+              _showFilterMenu(context);
             },
           ),
         ],
@@ -73,6 +83,86 @@ class _ProductListScreenState extends State<ProductListScreen> {
               return product.name.toLowerCase().contains(_searchQuery);
             }).toList();
             return ListView.builder(
+              controller: _scrollController,
+              itemCount: provider.filteredProducts.length + 1, // Use filteredProducts
+              itemBuilder: (context, index) {
+                if (index == provider.filteredProducts.length) {
+                  return provider.hasMore
+                      ? Center(child: CircularProgressIndicator())
+                      : SizedBox();
+                }
+
+                final product = provider.filteredProducts[index]; // Use filteredProducts
+
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 4.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailsScreen(product: product),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: product.imageUrl,
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => const SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: Center(child: CircularProgressIndicator()),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error, size: 50),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        product.name,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        "\$${product.price}",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+
+            /*  return ListView.builder(
               controller: _scrollController,
               itemCount: filteredProducts.length + 1,
               itemBuilder: (context, index) {
@@ -153,7 +243,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   ),
                 );
               },
-            );
+            );*/
           },
         ),
       ),
@@ -176,4 +266,56 @@ class _ProductListScreenState extends State<ProductListScreen> {
       ),
     );
   }
+
+
+  void _showFilterMenu(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Filter by Price'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text('Low to High'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _sortProductsByPrice(true);
+                },
+              ),
+              ListTile(
+                title: Text('High to Low'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _sortProductsByPrice(false);
+                },
+              ),
+              ListTile(
+                title: Text('Reset'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _resetFilters(); // Call the method to reset filters
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+// Method to sort products by price
+  void _sortProductsByPrice(bool lowToHigh) {
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
+    // Logic to sort products based on price
+    productProvider.sortProductsByPrice(lowToHigh);
+  }
+
+// Method to reset filters
+  void _resetFilters() {
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
+    productProvider.resetFilters(); // Assuming you have a method in your provider
+  }
+
 }

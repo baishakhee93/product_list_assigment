@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:product_list/model/product_model.dart';
@@ -15,7 +17,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.name),
+        title: Text("Product Details",style: TextStyle(color: Colors.black),),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,7 +49,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         return IconButton(
                           icon: Icon(
                             product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: product.isFavorite ? Colors.red : Colors.grey,
+                            color: product.isFavorite ? Colors.red : Colors.black,
                           ),
                           onPressed: () async {
                             // Toggle the favorite status in the provider
@@ -84,6 +86,38 @@ class ProductDetailsScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
+
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+
+                      },
+                      child: Text("Buy",style: TextStyle(color: Colors.white),),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                    ),
+                    SizedBox(width: 10,),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Add the product to the cart
+                        Provider.of<ProductProvider>(context, listen: false)
+                            .addToCart(product);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("${product.name} added to cart")),
+                        );
+                      },
+                      child: Text("Add to Cart",style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                    ),
+                  ],
+              )
               // Like/Unlike Button
             ],
           ),
