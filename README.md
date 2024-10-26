@@ -3,6 +3,7 @@ Architecture
 Folder Structure
 
 lib/
+
 ├── main.dart
 
 ├── models/
@@ -38,13 +39,11 @@ Note :- used SQLite for store favorite product  add and retrive
 
 #Product List Screen
 
-![product_list_screen](https://github.com/user-attachments/assets/dce6f6c4-1698-478b-9c37-fd1f5ec3701c)
-
+![p_list](https://github.com/user-attachments/assets/8d877cbb-d3ea-452c-be83-2a060a62d1c0)
 
 #Product Details Screen
 
-![product_details_screen](https://github.com/user-attachments/assets/27ac676c-fbe0-484d-b154-981ab53ba7fb)
-
+![p_details](https://github.com/user-attachments/assets/bc474bf2-d885-4d01-bdd2-d35c17818f24)
 
 #Favorate Product List Screen
 
