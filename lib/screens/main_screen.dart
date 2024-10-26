@@ -3,6 +3,7 @@ import 'package:product_list/screens/product_list_screen.dart';
 import 'package:product_list/screens/profile_screen.dart';
 
 import 'cart_screen.dart';
+import 'favorites_screen.dart';
 import 'order_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,9 +17,10 @@ class _MainScreenState extends State<MainScreen> {
   // List of screens to display based on selected index
   final List<Widget> _screens = [
     ProductListScreen(), // Product list screen
-    CartScreen(), // Cart screen
-    OrderScreen(), // History screen
-    ProfileScreen(), // Profile screen
+    CartScreen(),
+    OrderScreen(),
+    FavoritesScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -42,8 +44,12 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Cart',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
+            icon: Icon(Icons.shopping_basket_rounded),
+            label: 'Order',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

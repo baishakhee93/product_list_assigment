@@ -15,11 +15,13 @@ lib/
 
 ├── screens/
 
+│   └── main_screen.dart
+
+│   └── product_list_screen.dart
+
 │   └── product_details_screen.dart
 
-    └── product_list_screen.dart
-    
-    └── favorite_list_screen.dart
+      └── favorite_list_screen.dart
     
 
 main.dart: Entry point of the application.

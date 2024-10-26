@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/product_provider.dart';
-import 'favorites_screen.dart';
 import 'product_details_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -50,19 +49,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         ),
         backgroundColor: Colors.blue,
         actions: [
-          IconButton(
-            icon: Icon(Icons.favorite, color: Colors.white),
 
-            onPressed: () {
-              // Navigate to the FavoritesScreen to display favorite products
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FavoritesScreen(),
-                ),
-              );
-            },
-          ),
           IconButton(
             icon: Icon(Icons.filter_list, color: Colors.white),
             onPressed: () {
@@ -162,88 +149,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
               },
             );
 
-            /*  return ListView.builder(
-              controller: _scrollController,
-              itemCount: filteredProducts.length + 1,
-              itemBuilder: (context, index) {
-                if (index == filteredProducts.length) {
-                  return provider.hasMore
-                      ? Center(child: CircularProgressIndicator())
-                      : SizedBox();
-                }
-
-                final product = filteredProducts[index];
-
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 4.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ProductDetailsScreen(product: product),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Product Image
-                              CachedNetworkImage(
-                                imageUrl: product.imageUrl,
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child: Center(child: CircularProgressIndicator()),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error, size: 50),
-                              ),
-
-                              // Product Name and Price
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        product.name,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        "\$${product.price}",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );*/
           },
         ),
       ),

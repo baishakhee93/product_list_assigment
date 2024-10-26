@@ -8,8 +8,8 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorite Products'),
-        backgroundColor: Colors.blue,
+        title: Text('Favorite Products',style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
       ),
       body: Consumer<ProductProvider>(
         builder: (context, provider, child) {
